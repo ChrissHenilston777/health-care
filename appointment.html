@@ -1,0 +1,202 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Stellon's Appointment Page</title>
+  <style>
+    /* styles.css */
+/* Reset & Base */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; }
+
+/* Navbar */
+.navbar {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 16px 40px; background: #fff; box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+.navbar .logo { font-size: 24px; font-weight: 600; }
+.navbar .nav-links { display: flex; gap: 32px; list-style: none; }
+.navbar .nav-links a { text-decoration: none; color: #333; font-size: 16px; }
+.navbar .user-icon { font-size: 20px; }
+
+/* Panel */
+.panel {
+  position: relative; background: #E9F2F6; width: 1728px; height: 312px;
+  padding: 60px 80px;
+}
+.panel h1 { font-size: 36px; font-weight: 600; color: #1d1d1d; text-align: left; }
+.panel p { font-size: 18px; color: #333; margin-top: 12px; text-align: left; }
+
+/* Search Container */
+.search-container {
+  position: absolute; bottom: -33px; left: 80px;
+  width: 927px; height: 81px; background: #fff;
+  border-radius: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex; align-items: center; padding: 0 24px; gap: 16px;
+}
+.search-container input {
+  flex: 1; height: 56px; border: none; font-size: 18px; outline: none;
+}
+#searchBtn {
+  width: 64px; height: 66px; background: #E9F2F6;
+  border: none; border-radius: 50%; font-size: 24px; cursor: pointer;
+}
+
+/* Main & Doctor Card */
+.doctor-card {
+      width: 100%;
+      max-width: 1158px;
+      height: 500px;
+      background: #ffffff;
+      border: 1px solid #e0e0e0;
+      border-radius: 25px;
+      display: flex;
+      align-items: center;
+      padding: 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+      box-sizing: border-box;
+      gap: 40px;
+    }
+
+    .doctor-image {
+      width: 250px;
+      height: 300px;
+      background: #d9d9d9;
+      border-radius: 20px;
+    }
+
+    .doctor-info {
+      flex: 1;
+    }
+
+    .doctor-info h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 8px;
+      color: #1d1d1d;
+    }
+
+    .experience {
+      color: #0099b0;
+      font-weight: 500;
+      margin-bottom: 16px;
+      font-size: 16px;
+    }
+
+    .qualifications {
+      font-size: 16px;
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .location {
+      font-size: 16px;
+      color: #000;
+    }
+
+    .location input {
+      margin-right: 8px;
+      transform: scale(1.1);
+    }
+
+    .doctor-details {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .timing {
+      text-align: right;
+    }
+
+    .time {
+      font-size: 20px;
+      color: #0099b0;
+      font-weight: 600;
+    }
+
+    .days {
+      font-size: 16px;
+      color: #444;
+    }
+
+    .book-btn {
+      background-color: #f6d048;
+      border: none;
+      padding: 14px 28px;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      color: #000;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      transition: background-color 0.2s ease;
+    }
+
+    .book-btn:hover {
+      background-color: #e5c13f;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Stellon’s</div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="#">Appointment</a></li>
+      <li><a href="#">Pharmacy</a></li>
+      <li><a href="helpline.html">Helpline</a></li>
+    </ul>
+    <div class="user-icon">👤</div>
+  </nav>
+
+  <!-- Hero Panel -->
+  <header class="panel">
+    <h1>Find A Doctor</h1>
+    <p>Connect with Trusted Healthcare Expert For Personalised Care</p>
+    <div class="search-container">
+      <input type="text" placeholder="Search for doctors" id="searchBox" />
+      <button id="searchBtn">
+        <!-- Search Icon -->
+        🔍
+      </button>
+    </div>
+  </header>
+
+  <!-- Doctor Card -->
+  <main class="main">
+    <div class="doctor-card">
+      <div class="doctor-image"></div>
+      <div class="doctor-info">
+        <h2>Dr Aanchal Mittal</h2>
+        <p class="experience">8+ Years Experience</p>
+        <p class="qualifications">
+          Clinical Fellowship in Otology, MS-ENT,<br />
+          MBBS | ENT<br />
+          English | Hindi | Kannada
+        </p>
+        <p class="location">
+          <input type="checkbox" checked disabled /> Apollo Hospitals, Bannerghatta Road
+        </p>
+      </div>
+      <div class="doctor-details">
+        <div class="timing">
+          <p class="time">08:00 - 18:00</p>
+          <p class="days">Wed - Fri</p>
+        </div>
+        <button class="book-btn">Book Appointment</button>
+      </div>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
+

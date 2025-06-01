@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Medical Chatbot</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f5f5;
+    }
+
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+
+    .left-panel {
+      width: 30%;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: white;
+    }
+
+    .right-panel {
+      width: 70%;
+      display: flex;
+      flex-direction: column;
+      background: #dcdcdc;
+      position: relative;
+    }
+
+    .card {
+      background: rgba(174, 196, 187, 0.25);
+      border-radius: 25px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 180px;
+    }
+
+    .card.red {
+      background: rgba(142, 5, 7, 0.15);
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .card-description {
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .button {
+      background: rgba(4, 69, 119, 0.25);
+      border: none;
+      border-radius: 25px;
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+
+    .input-wrapper {
+      background: white;
+      border-radius: 25px;
+      padding: 10px 20px;
+      margin: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    input[type="text"] {
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 16px;
+    }
+
+    #send-btn {
+      background: #D9D9D9;
+      color: black;
+      border: none;
+      border-radius: 50%;
+      padding: 10px 14px;
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .chat-box {
+      flex-grow: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .message {
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      border-radius: 15px;
+      max-width: 80%;
+    }
+
+    .message.user {
+      align-self: flex-end;
+      background: rgba(0, 111, 65, 0.2);
+      color: #006F41;
+    }
+
+    .message.bot {
+      align-self: flex-start;
+      background: rgba(4, 69, 119, 0.2);
+      color: #044577;
+    }
+
+    .loading {
+      display: none;
+      width: 100%;
+      height: 4px;
+      background: #AEC4BB;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      animation: smoothLoad 2s infinite;
+    }
+
+    @keyframes smoothLoad {
+      0% { transform: translateX(-100%); }
+      50% { transform: translateX(0); }
+      100% { transform: translateX(100%); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="left-panel">
+      <div class="card">
+        
+        <div class="card-title">Doctor Helpline</div>
+        <div class="card-description">Talk to a certified medical expert</div>
+        <button class="button">Call Doctor</button>
+      </div>
+      <div class="card red">
+        
+        <div class="card-title">Emergency Call</div>
+        <div class="card-description">Start a video call with hospital staff</div>
+        <button class="button">Emergency</button>
+      </div>
+    </div>
+    <div class="right-panel">
+      <div id="chat-box" class="chat-box"></div>
+      <div class="input-wrapper">
+        <input type="text" id="user-input" placeholder="Ask a medical question..." />
+        <button id="send-btn">↑</button>
+      </div>
+      <div class="loading" id="loader"></div>
+    </div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById('chat-box');
+    const input = document.getElementById('user-input');
+    const sendBtn = document.getElementById('send-btn');
+    const loader = document.getElementById('loader');
+
+    const GROQ_API_KEY = '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'; // 🔑 Replace with actual API key
+
+    sendBtn.addEventListener('click', sendMessage);
+
+    async function sendMessage() {
+      const userInput = input.value.trim();
+      if (!userInput) return;
+
+      addMessage(userInput, 'user');
+      input.value = '';
+      loader.style.display = 'block';
+
+      const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${GROQ_API_KEY}`
+        },
+        body: JSON.stringify({
+          model: 'llama3-8b-8192',
+          messages: [
+            { role: 'system', content: 'You are a helpful medical chatbot.' },
+            { role: 'user', content: userInput }
+          ]
+        })
+      });
+
+      const data = await response.json();
+      const botMessage = data.choices[0].message.content;
+      loader.style.display = 'none';
+      addMessage(botMessage, 'bot');
+    }
+
+    function addMessage(content, sender) {
+      const msg = document.createElement('div');
+      msg.className = `message ${sender}`;
+      msg.textContent = content;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>
